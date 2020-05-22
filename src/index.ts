@@ -1,3 +1,5 @@
+#!/usr/bin/env node --no-warnings
+
 import path from 'path';
 import fs from 'fs-extra';
 import clone from 'git-clone';
@@ -15,7 +17,7 @@ const getConfigFile: () => IConfigFile = () => {
   } catch (error) {
     throwError({
       errorName: `${CONFIG_FILENAME} wasn't found`,
-      possibleReasons: ['Make sure that you have a proper local-package.config file in the root of your project.'],
+      possibleReasons: ['Make sure that you have a proper local-package.config.json file in the root of your project.'],
     });
   }
   // Never will reach this point because if configFile is not defined the process will be ended
@@ -59,10 +61,19 @@ const main = () => {
   const { packages }: IConfigFile = getConfigFile();
   // Clean temp folder
   cleanTempFolder()
-    .then(() => retrievePackages(packages))
-    .then(() => moveFilesToFolders(packages))
-    .then(() => cleanTempFolder())
-    .then(() => console.log('Done'));
+    .then(() => {
+      console.log('> Cloning repos');
+      retrievePackages(packages);
+    })
+    .then(() => {
+      console.log('> Copying selected files to destinations');
+      moveFilesToFolders(packages);
+    })
+    .then(() => {
+      console.log('> Cleaning temp files');
+      cleanTempFolder();
+    })
+    .then(() => console.log('> Done'));
 };
 
 main();

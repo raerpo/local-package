@@ -6,8 +6,11 @@
   "types": "dis/index.d.ts",
   "author": "Rafael Poveda <raerpo@gmail.com>",
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
+  "bin": {
+    "local-package": "./dist/index.js"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
