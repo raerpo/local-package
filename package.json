@@ -2,7 +2,30 @@
   "name": "@raerpo/local-package",
   "version": "1.0.0",
   "description": "Install github repositories as part of your code",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dis/index.d.ts",
   "author": "Rafael Poveda <raerpo@gmail.com>",
-  "license": "MIT"
+  "files": ["lib/**/*"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:raerpo/local-package.git"
+  },
+  "dependencies": {
+    "download-git-repo": "^3.0.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "yarn run build",
+    "prepublishOnly": "yarn run lint",
+    "preversion": "yarn run format && yarn run lint"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.9.3"
+  }
 }
