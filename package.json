@@ -1,0 +1,8 @@
+{
+  "name": "@raerpo/local-package",
+  "version": "1.0.0",
+  "description": "Install github repositories as part of your code",
+  "main": "src/index.js",
+  "author": "Rafael Poveda <raerpo@gmail.com>",
+  "license": "MIT"
+}
