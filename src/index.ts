@@ -71,15 +71,15 @@ const main = () => {
   cleanTempFolder()
     .then(() => {
       console.log('> Cloning repos');
-      retrievePackages(packages);
+      return retrievePackages(packages);
     })
     .then(() => {
       console.log('> Copying selected files to destinations');
-      moveFilesToFolders(packages);
+      return moveFilesToFolders(packages);
     })
     .then(() => {
       console.log('> Cleaning temp files');
-      cleanTempFolder();
+      return cleanTempFolder();
     })
     .then(() => console.log('> Done'));
 };
