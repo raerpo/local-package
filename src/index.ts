@@ -3,7 +3,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import clone from 'git-clone';
-import { throwError } from './utils';
+import { throwError, isLocalPackageConfigValid } from './utils';
 import { IConfigFile, IPackage } from './types';
 import { CONFIG_FILENAME, TEMP_FOLDER } from './config/constants';
 
@@ -13,7 +13,15 @@ import { CONFIG_FILENAME, TEMP_FOLDER } from './config/constants';
 const getConfigFile: () => IConfigFile = () => {
   try {
     const configFile: IConfigFile = require(path.resolve(process.cwd(), CONFIG_FILENAME));
-    return configFile;
+    const validation = isLocalPackageConfigValid(configFile);
+    if (validation.valid) {
+      return configFile;
+    } else {
+      throwError({
+        errorName: "config file doesn't have the correct schema",
+        possibleReasons: validation.errors.map((error) => error.stack),
+      });
+    }
   } catch (error) {
     throwError({
       errorName: `${CONFIG_FILENAME} wasn't found`,
